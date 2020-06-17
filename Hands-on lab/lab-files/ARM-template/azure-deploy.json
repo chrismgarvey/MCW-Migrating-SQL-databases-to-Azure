@@ -28,8 +28,9 @@
         },
         "vCores": {
             "type": "int",
-            "defaultValue": 16,
+            "defaultValue": 4,
             "allowedValues": [
+                4,
                 8,
                 16,
                 24,
@@ -64,8 +65,8 @@
         "location": "[resourceGroup().location]",
         "uniqueManagedInstanceName": "[concat(parameters('managedInstanceName'), '-', uniqueString(resourceGroup().id))]",
         "storageAccountName": "[concat('sqlmistore', uniqueString(resourceGroup().id))]",
-        "skuName": "BC_Gen5",
-        "skuEdition": "BusinessCritical",
+        "skuName": "GP_Gen5",
+        "skuEdition": "GeneralPurpose",
         "licenseType": "LicenseIncluded",
         "hardwareFamily": "Gen5",
         "publicDataEndpointEnabled": false,
