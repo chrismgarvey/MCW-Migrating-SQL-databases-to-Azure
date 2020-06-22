@@ -75,8 +75,6 @@ At the end of this hands-on lab, you will be better able to implement a cloud mi
 
 ## Overview
 
-** TEST ** ** ** CG
-
 Tailspin Toys is the developer of several popular online video games. Founded in 2010, the company has experienced exponential growth since releasing the first installment of their most popular game franchise to include online multiplayer gameplay. They have since built upon this success by adding online capabilities to the majority of their game portfolio.
 
 Adding online gameplay has dramatically increased the popularity of their games, but the rapid increase in demand for their services has made supporting the current setup problematic. To facilitate online gameplay, they host gaming services on-premises using rented hardware. For each game, their gaming services setup consists of three virtual machines running the gaming software and five game databases hosted on a single SQL Server 2008 R2 instance. In addition to the dedicated gaming VMs and databases, they also host shared authentication and gateway VMs and databases. At its foundation, Tailspin Toys is a game development company, made up primarily of software developers. The few dedicated database and infrastructure resources they do have are struggling to keep up with their ever-increasing workload.
@@ -147,34 +145,42 @@ In this task, you do some configuration the `TailspinToys` database on the SQL S
 
     ![In the Remote Desktop Connection dialog box, a warning states that the identity of the remote computer cannot be verified, and asks if you want to continue anyway. At the bottom, the Yes button is circled.](./media/remote-desktop-connection-identity-verification-sqlserver2008.png "Remote Desktop Connection dialog")
 
-9. Once logged in, open **Microsoft SQL Server Management Studio 17** (SSMS) by entering "sql server" into the search bar in the Windows Start menu and selecting **Microsoft SQL Server Management Studio 17** from the search results.
+9.  Navigate to One Drive folder https://tdworldwide-my.sharepoint.com/:f:/g/personal/christopher_garvey_techdata_com/EhzyEOhuXN5IoWfZPA58ujYBETMYYivNoVLjLuhDF_Iq-Q?e=BSJXT5
+
+    Copy TailspinToys.bak to C:\Program Files\Microsoft SQL Server\MSSQL10_50.MSSQLSERVER\MSSQL\Backup
+
+    ![image-20200622175246128](C:\Users\chris\Documents\GitHub\MCW-Migrating-SQL-databases-to-Azure\Hands-on lab\media\image-20200622175246128.png)
+
+    
+
+10. Once logged in, open **Microsoft SQL Server Management Studio 17** (SSMS) by entering "sql server" into the search bar in the Windows Start menu and selecting **Microsoft SQL Server Management Studio 17** from the search results.
 
     ![SQL Server is entered into the Windows Start menu search box, and Microsoft SQL Server Management Studio 17 is highlighted in the search results.](media/start-menu-ssms-17.png "Windows start menu search")
 
-10. In the SSMS **Connect to Server** dialog, enter **SQLSERVER2008** into the Server name box, ensure **Windows Authentication** is selected, and then select **Connect**.
+11. In the SSMS **Connect to Server** dialog, enter **SQLSERVER2008** into the Server name box, ensure **Windows Authentication** is selected, and then select **Connect**.
 
-    ![The SQL Server Connect to Search dialog is displayed, with SQLSERVER2008 entered into the Server name and Windows Authentication selected.](media/sql-server-connect-to-server.png "Connect to Server")
+     ![The SQL Server Connect to Search dialog is displayed, with SQLSERVER2008 entered into the Server name and Windows Authentication selected.](media/sql-server-connect-to-server.png "Connect to Server")
 
-11. Once connected, select **New Query** from the SSMS toolbar.
+12. Once connected, select **New Query** from the SSMS toolbar.
 
-    ![The New Query button is highlighted in the SSMS toolbar.](media/ssms-new-query.png "SSMS Toolbar")
+     ![The New Query button is highlighted in the SSMS toolbar.](media/ssms-new-query.png "SSMS Toolbar")
 
-12. Next, copy and paste the SQL script below into the new query window. This script enables Service broker and changes the database recovery model to FULL.
+13. Next, copy and paste the SQL script below into the new query window. This script enables Service broker and changes the database recovery model to FULL.
 
-    ```sql
-    USE master;
-    GO
+     ```sql
+     USE master;
+     GO
+     
+     -- Update the recovery model of the database to FULL and enable Service Broker
+     ALTER DATABASE TailspinToys SET
+     RECOVERY FULL,
+     ENABLE_BROKER WITH ROLLBACK IMMEDIATE;
+     GO
+     ```
 
-    -- Update the recovery model of the database to FULL and enable Service Broker
-    ALTER DATABASE TailspinToys SET
-    RECOVERY FULL,
-    ENABLE_BROKER WITH ROLLBACK IMMEDIATE;
-    GO
-    ```
+14. To run the script, select **Execute** from the SSMS toolbar.
 
-13. To run the script, select **Execute** from the SSMS toolbar.
-
-    ![The Execute button is highlighted in the SSMS toolbar.](media/ssms-execute.png "SSMS Toolbar")
+     ![The Execute button is highlighted in the SSMS toolbar.](media/ssms-execute.png "SSMS Toolbar")
 
 ### Task 2: Perform assessment for migration to Azure SQL Database
 
